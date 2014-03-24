@@ -85,6 +85,11 @@ footer {
 }
 .footerDiv {
     @include grid-column (4);
+    @include breakpoint(small-screen) {
+        @include grid-column (12);
+        margin: auto;
+        text-align: center;
+    }
 }
 footer .widget {
     margin-bottom: 1em;
