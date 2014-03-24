@@ -1,0 +1,108 @@
+//Theme specific styles
+@mixin breakpoint($point) {
+    @if $point == small-screen {
+        @media (max-width: $small-screen - 1) { @content; }
+    }
+    @else if $point == medium-screen {
+        @media (max-width: $medium-screen) { @content; }
+    }
+}
+
+//Typography
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans:400italic,400);
+
+html,body {
+    font-size: 100%;
+    //overflow-x: hidden;
+}
+
+//Containing Elements
+.container {
+    @include grid-row(false);
+}
+#contentContainer {
+    @include grid-row(false);
+}
+#content {
+    @include grid-column(9);
+    @include breakpoint(small-screen) {
+        @include grid-column(12);
+    }
+}
+.post {
+    @include grid-row(false);
+}
+#sidebar {
+    @include grid-column(3);
+    margin-top: 1.2em;
+    @include breakpoint(small-screen) {
+        @include grid-column(12);
+        margin-top: 0;
+    }
+}
+//Full width banner background image
+#banner {
+    background: url(../images/site-banner-2.jpg) no-repeat top center fixed;
+    height: 100%;
+    margin-top: emCalc(-10);
+    max-width: emCalc(1920);
+    padding: emCalc(125) 0;
+    width: 100%;
+    @include breakpoint(small-screen) {
+        display: none;
+    }
+    h1,
+    h2 {
+        color: white;
+        text-align: center;
+    }
+}
+
+.top-bar {
+    margin-top: emCalc(-1);
+    //position: relative;
+}
+.top-bar-section {
+    background: $primary-color;
+    box-shadow: emCalc(-960px) 0 0 $primary-color, emCalc(960px) 0 0 $primary-color;
+    height: emCalc(45px);
+}
+
+.top-bar h1 {
+    display: none;
+    @include breakpoint(small-screen) {
+        display: block;
+    }
+}
+
+//Footer styles
+footer {
+    background: black;
+    color: white;
+    margin-top: 1em;
+    padding-top: 1em;
+    width: 100%;
+}
+.footerDiv {
+    @include grid-column (4);
+}
+footer .widget {
+    margin-bottom: 1em;
+}
+.widgetTitle {
+    color: white;
+}
+#copyright {
+    font-size: 0.8em;
+    font-style: italic;
+    margin: 1em;
+    text-align: center;
+}
+
+/* PRE */
+pre {
+    background-color: #e5e5e5;
+    border: 1px dashed;
+    margin: 1em auto;
+    padding: 10px;
+}

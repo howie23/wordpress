@@ -1,0 +1,25 @@
+# Exclude these files from the git repo
+wp-content/backup/*
+wp-content/cache/*
+wp-content/upgrade/*
+wp-content/uploads/*
+wp-content/themes/ict/*
+wp-content/themes/ignite/*
+wp-content/themes/twentyeleven/*
+wp-content/themes/twentyfourteen/*
+wp-content/themes/twentythirteen/*
+wp-content/themes/twentytwelve/*
+wp-content/themes/foundation/.sass-cache/*
+wp-content/themes/foundation/*.html
+wp-content/themes/foundation/*.txt
+wp-content/themes/foundation/*.zip
+sitemap.*
+wp-config.php
+ 
+# Hidden system files
+*.DS_Store
+*[Tt]humbs.db
+*.Trashes
+ 
+# Include these files in previously blocked directories
+!wp-content/uploads/.htaccess
