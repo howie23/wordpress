@@ -82,3 +82,29 @@ function foundation_widgets_init() {
     );
 }
 add_action('widgets_init', 'foundation_widgets_init');
+
+//Register custom post type(s)
+function create_show_info() {
+    register_post_type( 'ict_show_info',
+        array (
+            'labels' => array(
+                'name' => __( 'Shows' ),
+                'singular_name' => __( 'Show' ),
+                'menu_name' => __( 'Manage Shows' ),
+                'add_new' => __( 'Add New Show' ),
+                'add_new_item' => __( 'Add New Show' ),
+                'edit_item' => __( 'Edit Show' ),
+                'view_item' => __( 'View Show' ),
+                'search_items' => __( 'Search Shows' ),
+                'not_found' => __( 'No shows found' ),
+                'not_found_in_trash' => __( 'No shows found in trash' )
+            ),
+            'description' => __( 'A custom post type for adding information about shows for upcoming seasons' ),
+            'public' => true,
+            'has_archive' => true,
+            'menu_icon' => __( 'dashicons-star-filled' ),
+            'supports' => array ('title', 'editor', 'thumbnail'),
+        )
+    );
+}
+add_action('init', 'create_show_info');
