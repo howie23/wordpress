@@ -83,28 +83,55 @@ function foundation_widgets_init() {
 }
 add_action('widgets_init', 'foundation_widgets_init');
 
-//Register custom post type(s)
+//Registering Shows custom post-type
 function create_show_info() {
-    register_post_type( 'ict_show_info',
-        array (
-            'labels' => array(
-                'name' => __( 'Shows' ),
-                'singular_name' => __( 'Show' ),
-                'menu_name' => __( 'Manage Shows' ),
-                'add_new' => __( 'Add New Show' ),
-                'add_new_item' => __( 'Add New Show' ),
-                'edit_item' => __( 'Edit Show' ),
-                'view_item' => __( 'View Show' ),
-                'search_items' => __( 'Search Shows' ),
-                'not_found' => __( 'No shows found' ),
-                'not_found_in_trash' => __( 'No shows found in trash' )
-            ),
-            'description' => __( 'A custom post type for adding information about shows for upcoming seasons' ),
-            'public' => true,
-            'has_archive' => true,
-            'menu_icon' => __( 'dashicons-star-filled' ),
-            'supports' => array ('title', 'editor', 'thumbnail'),
-        )
+    $labels = array(
+        'name' => __( 'Shows' ),
+        'singular_name' => __( 'Show' ),
+        'menu_name' => __( 'Manage Shows' ),
+        'add_new' => __( 'Add New Show' ),
+        'add_new_item' => __( 'Add New Show' ),
+        'edit_item' => __( 'Edit Show' ),
+        'view_item' => __( 'View Show' ),
+        'search_items' => __( 'Search Shows' ),
+        'not_found' => __( 'No shows found' ),
+        'not_found_in_trash' => __( 'No shows found in trash' )
     );
+    $args = array (
+        'labels' => $labels,
+        'description' => __( 'A custom post type for adding information about shows for upcoming seasons' ),
+        'public' => true,
+        'has_archive' => true,
+        'menu_icon' => __( 'dashicons-star-filled' ),
+        'supports' => array ('title', 'editor', 'thumbnail'),
+    );
+    register_post_type( 'ict_show_info', $args );
 }
 add_action('init', 'create_show_info');
+
+//Register Taxonomy for Shows custom post-type
+//Custom Taxonomy in this case is used to designate which season a show is a part of (will be used for archival purposes (hopefully))
+register_taxonomy("Seasons", array("ict_show_info"), array("hierarchical" => true, "label" => "Seasons", "singular_label" => "Season", "rewrite" => true));
+
+//Add custom data fields for Shows custom post-type
+//Will be used for adding show specific information (cast lists, production staff, etc)
+add_action ("admin_init", "admin_init");
+
+function admin_init() {
+    add_meta_box("director_meta", "Director", "show_director", "ict_show_info", "normal", "low");
+}
+function show_director() {
+    global $post;
+    $custom = get_post_custom($post->ID);
+    $show_director = $custom["show_director"][0];
+    ?>
+    <label>Director:</label>
+    <input name="show_director" value="<?php echo $show_director; ?>" />
+    <?php
+}
+add_action('save_post', 'save_details');
+
+function save_details () {
+    global $post;
+    update_post_meta($post->ID, "show_director", $_POST["show_director"]);
+}
