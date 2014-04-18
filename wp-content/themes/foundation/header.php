@@ -34,5 +34,3 @@ $getUploadDirPath = $uploadDirPath['url'];
             </section>
         </nav>
     </div>
-    <div class="container">
-        <div id="content">
