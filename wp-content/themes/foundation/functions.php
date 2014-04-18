@@ -5,6 +5,9 @@ function _remove_version() {
 }
 add_filter('the_generator', '_remove_version');
 
+//Include ACF Repeater Plugin
+include_once('acf-repeater/acf-repeater.php');
+
 //Register Nav Menu
 add_action( 'init', 'register_my_menus' );
 
@@ -105,20 +108,20 @@ function create_show_info() {
         'menu_icon' => __( 'dashicons-star-filled' ),
         'supports' => array ('title', 'editor', 'thumbnail'),
     );
-    register_post_type( 'ict_show_info', $args );
+    register_post_type( 'shows', $args );
 }
 add_action('init', 'create_show_info');
 
 //Register Taxonomy for Shows custom post-type
 //Custom Taxonomy in this case is used to designate which season a show is a part of (will be used for archival purposes (hopefully))
-register_taxonomy("Seasons", array("ict_show_info"), array("hierarchical" => true, "label" => "Seasons", "singular_label" => "Season", "rewrite" => true));
+register_taxonomy("Seasons", array("shows"), array("hierarchical" => true, "label" => "Seasons", "singular_label" => "Season", "rewrite" => true));
 
 //Add custom data fields for Shows custom post-type
 //Will be used for adding show specific information (cast lists, production staff, etc)
 add_action ("admin_init", "admin_init");
 
 function admin_init() {
-    add_meta_box("director_meta", "Director", "show_director", "ict_show_info", "normal", "low");
+    add_meta_box("director_meta", "Director", "show_director", "shows", "normal", "low");
 }
 function show_director() {
     global $post;
