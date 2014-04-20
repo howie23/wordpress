@@ -115,26 +115,3 @@ add_action('init', 'create_show_info');
 //Register Taxonomy for Shows custom post-type
 //Custom Taxonomy in this case is used to designate which season a show is a part of (will be used for archival purposes (hopefully))
 register_taxonomy("Seasons", array("shows"), array("hierarchical" => true, "label" => "Seasons", "singular_label" => "Season", "rewrite" => true));
-
-//Add custom data fields for Shows custom post-type
-//Will be used for adding show specific information (cast lists, production staff, etc)
-add_action ("admin_init", "admin_init");
-
-function admin_init() {
-    add_meta_box("director_meta", "Director", "show_director", "shows", "normal", "low");
-}
-function show_director() {
-    global $post;
-    $custom = get_post_custom($post->ID);
-    $show_director = $custom["show_director"][0];
-    ?>
-    <label>Director:</label>
-    <input name="show_director" value="<?php echo $show_director; ?>" />
-    <?php
-}
-add_action('save_post', 'save_details');
-
-function save_details () {
-    global $post;
-    update_post_meta($post->ID, "show_director", $_POST["show_director"]);
-}
