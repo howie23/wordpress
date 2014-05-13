@@ -114,4 +114,13 @@ add_action('init', 'create_show_info');
 
 //Register Taxonomy for Shows custom post-type
 //Custom Taxonomy in this case is used to designate which season a show is a part of (will be used for archival purposes (hopefully))
-register_taxonomy("Seasons", array("shows"), array("hierarchical" => true, "label" => "Seasons", "singular_label" => "Season", "rewrite" => true));
+register_taxonomy(
+    "season",
+    array("shows"),
+    array(
+        "hierarchical" => true,
+        "label" => "Seasons",
+        "singular_label" => "Season",
+        "rewrite" => true
+    )
+);
