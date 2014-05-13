@@ -1,8 +1,8 @@
 <?php
-get_header();
+    get_header();
+    $term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
+    query_posts(array( 'post_type'=>'shows', 'season'=>$term->slug));
 ?>
-<?php $term = get_term_by( 'slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) ); ?>
-<?php query_posts(array( 'post_type'=>'shows', 'season'=>$term->slug)); ?>
     <div class="container">
         <div id="content">
         <h2><?php echo $term->name; ?></h2>
