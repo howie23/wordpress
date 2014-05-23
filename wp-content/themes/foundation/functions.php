@@ -132,8 +132,8 @@ function create_shows_taxonomies() {
     $args = array(
         'hierarchical'      => true,
         'labels'            => $labels,
-        'rewrite'           => array( 'slug' => 'shows' ),
+        'rewrite'           => true,
     );
     
-    register_taxonomy( 'season', array( 'shows' ), $args);
+    register_taxonomy( 'season','shows', $args);
 }
