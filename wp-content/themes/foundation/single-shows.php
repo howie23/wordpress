@@ -33,20 +33,20 @@ get_header();
                                 echo ' end';
                             }
                             echo '">';
-                            echo '<h3>' . $director['director_name'] . '</h3>';
-                            echo '<h4>' . $director['director_role'] . '</h4>';
-                            echo '</div>';
                         } else {
                             echo '<div class="large-6 columns';
                             if ($i == $length && $counter !==0) {
                                 echo ' end';
                             }
                             echo '">';
-                            echo '<h3>' . $director['director_name'] . '</h3>';
-                            echo '<h4>' . $director['director_role'] . '</h4>';
-                            echo '</div>';
                         }
+                        echo '<h3>' . $director['director_name'] . '</h3>';
+                        echo '<h4>' . $director['director_role'] . '</h4>';
+                        echo '</div>';
                         if ($counter == 0) {
+                            echo '</div>'; //End Row
+                        }
+                        if ($counter !==0 && $i == $length) {
                             echo '</div>'; //End Row
                         }
                         $i++;
@@ -91,6 +91,9 @@ get_header();
                         if ($counter == 0) {
                             echo '</div>'; //End Row
                         }
+                        if ($counter !==0 && $i == $length) {
+                            echo '</div>'; //End Row
+                        }
                         $i++;
                     }
                 }
@@ -129,6 +132,9 @@ get_header();
                         echo '<h4>' . $crew_row['crew_name'] . '</h4>';
                         echo '</div>';
                         if ($counter == 0) {
+                            echo '</div>'; //End Row
+                        }
+                        if ($counter !==0 && $i == $length) {
                             echo '</div>'; //End Row
                         }
                         $i++;
