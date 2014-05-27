@@ -19,7 +19,6 @@ $getUploadDirPath = $uploadDirPath['url'];
 </head>
 <body <?php body_class(); ?>>
     <div id="banner">
-        <!--<img src="<?php echo get_template_directory_uri(); ?>/images/site-banner-2.jpg">-->
         <h1><?php bloginfo('name'); ?></h1><br>
         <h2><?php bloginfo('description'); ?></h2>
     </div>
