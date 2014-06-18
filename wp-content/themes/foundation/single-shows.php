@@ -80,7 +80,8 @@ get_header();
                     }
                 }
                 //Get show dates
-                if (have_rows('performance_info')): ?>
+                $performanceInfo = get_field('performance_info');
+                if (!empty($performanceInfo[0]['performance_date']) && have_rows('performance_info')): ?>
                 <div class="row">
                     <div class="large-8 large-centered columns">
                         <table>
