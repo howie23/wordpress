@@ -42,5 +42,6 @@
     "foundation/components/top-bar";
 //    "foundation/components/dropdown";
 
-@import "_wordpress.scss";
-@import "_theme.scss";
+@import "wordpress";
+@import "icons";
+@import "theme";

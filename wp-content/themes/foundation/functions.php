@@ -137,3 +137,25 @@ function create_shows_taxonomies() {
     
     register_taxonomy( 'season','shows', $args);
 }
+//Get Show icon
+function getShowTypeIcon ($icon) {
+    $showTypes = array (
+        'book-light' => array (
+            'icon-name'         => 'fi-book',
+            'show-type-title'   => 'This is a Booklight production. Booklight productions are readers theatre productions with minimal staging.'
+        ),
+        'foot-light' => array (
+            'icon-name'         => 'fi-social-skillshare',
+            'show-type-title'   => 'This is a Footlight production. Footlight productions are fully staged productions.'
+        )
+    );
+    $setShowType = get_field('show_type');
+    $showTypeIcon = $showTypes[$setShowType]['icon-name'];
+    $showTypeTitle = $showTypes[$setShowType]['show-type-title'];
+    if ($icon == 'icon') {
+        $showType = '<i class="' . $showTypeIcon . '" title="' . $showTypeTitle . '"></i>';
+    } else {
+        $showType = '<p class="show-type"><i class="' . $showTypeIcon . '" title="' . $showTypeTitle . '"></i> - ' . $showTypeTitle . '</p>';
+    }
+    return $showType;
+}

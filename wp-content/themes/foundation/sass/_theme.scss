@@ -79,7 +79,13 @@ html,body {
 .cast-list {
     margin-top: 1em;
 }
-
+.show-type {
+    color: #6B6B6B;
+    font-style: italic;
+    i[class^="fi-"] {
+        font-size: 2rem;
+    }
+}
 //Footer styles
 footer {
     background: black;
