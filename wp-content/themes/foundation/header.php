@@ -9,7 +9,7 @@ $getUploadDirPath = $uploadDirPath['url'];
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
     <meta name="viewport" content="width=device-width">
-    <title><?php wp_title( '|', true, 'right' ); ?></title>
+    <title><?php bloginfo('name'); ?> | <?php is_home() ? bloginfo('description') : wp_title(''); ?></title>
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
     <link href="<?php echo get_template_directory_uri(); ?>/stylesheets/normalize.css" rel="stylesheet" media="screen">
@@ -18,6 +18,7 @@ $getUploadDirPath = $uploadDirPath['url'];
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+    <?php include_once('ga.php'); ?>
     <div id="banner">
         <h1><?php bloginfo('name'); ?></h1><br>
         <h2><?php bloginfo('description'); ?></h2>
