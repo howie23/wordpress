@@ -10,6 +10,7 @@ wp-content/themes/twentyfourteen/*
 wp-content/themes/twentythirteen/*
 wp-content/themes/twentytwelve/*
 wp-content/themes/foundation/.sass-cache/*
+wp-content/themes/foundation/sass/.sass-cache/*
 wp-content/themes/foundation/*.html
 wp-content/themes/foundation/*.txt
 wp-content/themes/foundation/*.zip
