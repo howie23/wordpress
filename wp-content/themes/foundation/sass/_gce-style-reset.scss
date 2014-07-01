@@ -1,0 +1,13 @@
+//Override styles for Google Calendar Event Plugin
+.gce-list {
+    list-style-type: none;
+    li {
+        margin-bottom: emCalc(8px);
+    }
+}
+.gce-list-title {
+    display: none;
+}
+.gce-list-event {
+    background: inherit !important;
+}
