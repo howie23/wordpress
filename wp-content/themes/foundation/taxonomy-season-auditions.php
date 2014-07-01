@@ -11,7 +11,8 @@
             <p><?php echo $pageDescription; ?></p>
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
             <div class="post">
-                <h2><a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+                <h2><?php echo getShowTypeIcon('icon'); ?>&nbsp;<a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+                <?php echo getShowTypeIcon('full'); ?>
                 <hr />
                 <?php the_excerpt(); ?>
                 <?php
@@ -32,9 +33,9 @@
                 ?>
                 <?php
                     $all_audition_information = TRUE; //Show audition information on this page
-                    $audition_dates = get_field(audition_dates); //Get Audition dates/times return an array
-                    $audition_locale = get_field(audition_locale); //Get Audition location
-                    $characters = get_field(cast_members); //Get list of characters and descriptions
+                    $audition_dates = get_field('audition_dates'); //Get Audition dates/times return an array
+                    $audition_locale = get_field('audition_locale'); //Get Audition location
+                    $characters = get_field('cast_members'); //Get list of characters and descriptions
                     //Check to see if at least one Audition date/time has been set set. If not, don't display audition information
                     if (empty($audition_dates[0]['audition_time']) || empty($audition_dates[0]['audition_date'])) {
                         $all_audition_information = FALSE;

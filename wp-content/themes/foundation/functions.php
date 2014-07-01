@@ -154,7 +154,7 @@ function getShowTypeIcon ($icon) {
     $showTypeTitle = $showTypes[$setShowType]['show-type-title'];
     if ($icon == 'icon') {
         $showType = '<i class="' . $showTypeIcon . '" title="' . $showTypeTitle . '"></i>';
-    } else {
+    } elseif ($icon == 'full') {
         $showType = '<p class="show-type"><i class="' . $showTypeIcon . '" title="' . $showTypeTitle . '"></i> - ' . $showTypeTitle . '</p>';
     }
     return $showType;
