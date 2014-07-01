@@ -40,6 +40,21 @@ html,body {
         margin-top: 0;
     }
 }
+a:hover,
+a:focus {
+    text-decoration: underline;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    a:hover,
+    a:focus {
+        text-decoration: none;
+    }
+}
 //Full width banner background image
 #banner {
     background: url(../images/site-banner-2.jpg) no-repeat top center fixed;
@@ -93,6 +108,12 @@ footer {
     margin-top: 1em;
     padding-top: 1em;
     width: 100%;
+    .widget {
+        margin-bottom: 1em;
+    }
+    .widgetTitle {
+        color: white;
+    }
 }
 .footerDiv {
     @include grid-column (4);
@@ -101,12 +122,6 @@ footer {
         margin: auto;
         text-align: center;
     }
-}
-footer .widget {
-    margin-bottom: 1em;
-}
-.widgetTitle {
-    color: white;
 }
 #copyright {
     font-size: 0.8em;
