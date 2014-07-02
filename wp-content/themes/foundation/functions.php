@@ -159,3 +159,49 @@ function getShowTypeIcon ($icon) {
     }
     return $showType;
 }
+function displayShowPeople($peopleType) {
+//Check if ACF is active
+    $pluginStatusCheck = function_exists('get_field') ? TRUE : FALSE;
+    if (!$pluginStatusCheck) {
+        $error = "It appears that Advanced Custom Fields is not functional. Is it installed?";
+        return $error;
+    } else {
+        $peopleField = get_field($peopleType);
+        $html = '';
+        $i=1;
+        $length = count($peopleField);
+        foreach($peopleField as $person) {
+            $counter = ($i % 2);
+            if ($counter !== 0) {
+                $html .='<div class="row cast-list">';
+            }
+            if (!empty($person['headshot'])) {
+                $html .='<div class="large-2 columns">';
+                $html .='<a href="' . $person['headshot']['url'] . '"><img src="' . $person['headshot']['sizes']['thumbnail'] . '" alt="' . $person['headshot']['alt'] . '"></a>';
+                $html .='</div>';
+                $html .='<div class="large-4 columns';
+                if ($i == $length && $counter !==0) {
+                    $html .=' end';
+                }
+                $html .='">';
+            } else {
+                $html .='<div class="large-6 columns';
+                if ($i == $length && $counter !==0) {
+                    $html .=' end';
+                }
+                $html .='">';
+            }
+            $html .='<h3>' . $person['role'] . '</h3>';
+            $html .='<h4>' . $person['name'] . '</h4>';
+            $html .='</div>';
+            if ($counter == 0) {
+                $html .='</div>'; //End Row
+            }
+            if ($counter !==0 && $i == $length) {
+                $html .='</div>'; //End Crew section
+            }
+            $i++;
+        }
+        return $html;
+    }
+}
