@@ -14,19 +14,19 @@ get_header();
                 //Displaying Cast and Crew Information
                 $director_information = TRUE;
                 $directors = function_exists('get_field') ? get_field('the_director') : FALSE;
-                if (($directors = FALSE) || (empty($directors[0]['name']))) {
+                if (($directors == FALSE) || (empty($directors[0]['name']))) {
                     $director_information = FALSE;
                 }
                 $cast_information = TRUE;
                 $cast = function_exists('get_field') ? get_field('the_cast') : FALSE;
                 //Check to see if at least one cast name has been set. If not, don't display cast information
-                if (($cast = FALSE) || (empty($cast[0]['name']))) {
+                if (($cast == FALSE) || (empty($cast[0]['name']))) {
                     $cast_information = FALSE;
                 }
                 $crew_information = TRUE;
                 $crew = function_exists('get_field') ? get_field('the_crew') : FALSE;
                 //Check to see if at least one crew name has been set. If not, don't display crew information
-                if (($crew = FALSE) || (empty($crew[0]['name']))) {
+                if (($crew == FALSE) || (empty($crew[0]['name']))) {
                     $crew_information = FALSE;
                 }
                 if ($director_information) {
