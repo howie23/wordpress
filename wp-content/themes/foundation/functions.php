@@ -137,6 +137,14 @@ function create_shows_taxonomies() {
     
     register_taxonomy( 'season','shows', $args);
 }
+
+//Add link to Excerpt
+function excerpt_read_more_link($output) {
+    global $post;
+    return $output . '<a href="'. get_permalink($post->ID) . '"> Read More...</a>';
+}
+add_filter('the_excerpt', 'excerpt_read_more_link');
+
 //Get Show icon
 function getShowTypeIcon ($icon) {
     $showTypes = array (
@@ -159,6 +167,32 @@ function getShowTypeIcon ($icon) {
     }
     return $showType;
 }
+
+//Verify ACF is functioning
+function pluginStatusCheck() {
+    $result = '';
+    if (function_exists('get_field')) {
+        $result = TRUE;
+    } else {
+        $result = FALSE;
+    }
+    return $result;
+}
+//Verify information is present
+function checkInformation($object) {
+    $results = '';
+    if (pluginStatusCheck()) {
+        if(!empty(get_field($object))) {
+            $results = TRUE;
+        } else {
+            $results = FALSE;
+        }
+    } else {
+        $results = "It appears that Advanced Custom Fields is not functioning. Is it installed and activated?";
+    }
+    return $results;
+}
+
 function displayShowPeople($peopleType) {
 //Check if ACF is active
     $pluginStatusCheck = function_exists('get_field') ? TRUE : FALSE;
@@ -171,37 +205,36 @@ function displayShowPeople($peopleType) {
         $i=1;
         $length = count($peopleField);
         foreach($peopleField as $person) {
-            $counter = ($i % 2);
-            if ($counter !== 0) {
-                $html .='<div class="row cast-list">';
-            }
             if (!empty($person['headshot'])) {
-                $html .='<div class="large-2 columns">';
-                $html .='<a href="' . $person['headshot']['url'] . '"><img src="' . $person['headshot']['sizes']['thumbnail'] . '" alt="' . $person['headshot']['alt'] . '"></a>';
+                $html .='<div class="large-12">';
+                $html .='<a href="' . $person['headshot']['url'] . '"><img src="' . $person['headshot']['sizes']['medium'] . '" alt="' . $person['headshot']['alt'] . '"></a>';
                 $html .='</div>';
-                $html .='<div class="large-4 columns';
-                if ($i == $length && $counter !==0) {
-                    $html .=' end';
-                }
-                $html .='">';
-            } else {
-                $html .='<div class="large-6 columns';
-                if ($i == $length && $counter !==0) {
-                    $html .=' end';
-                }
-                $html .='">';
             }
+            $html .='<div class="large-12">';
             $html .='<h3>' . $person['role'] . '</h3>';
             $html .='<h4>' . $person['name'] . '</h4>';
             $html .='</div>';
-            if ($counter == 0) {
-                $html .='</div>'; //End Row
-            }
-            if ($counter !==0 && $i == $length) {
-                $html .='</div>'; //End Crew section
-            }
-            $i++;
         }
         return $html;
     }
+}
+
+function getAuditionInformation() {
+    $n = array();
+    //$director = get_field('the_director');
+    if (checkInformation('the_director')) {
+        while(has_sub_field('the_director')) {
+            $n["director"][] = get_sub_field('name');
+        }
+    }
+    if (checkInformation('audition_locale')) {
+        $n["location"] = get_field('audition_locale');
+    }
+    if (checkInformation('audition_dates')) {
+        while(has_sub_field('audition_dates')) {
+            $n["date"][] = date("l F d, Y", strtotime(get_sub_field('audition_date')));
+            $n["time"][] =get_sub_field('audition_time');
+        }
+    }
+    return $n;
 }
