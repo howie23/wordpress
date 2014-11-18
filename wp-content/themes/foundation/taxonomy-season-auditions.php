@@ -11,82 +11,89 @@
             <p><?php echo $pageDescription; ?></p>
         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
             <div class="post">
-                <h2><?php //echo getShowTypeIcon('icon'); ?>&nbsp;<a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
-                <?php //echo getShowTypeIcon('full'); ?>
+                <h2><?php echo getShowTypeIcon('icon'); ?>&nbsp;<a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
                 <hr />
-                <?php the_excerpt(); ?>
-                <br>
                 <?php
-                    //displayShowPeople('the_director');
-                    //$directors = get_field('the_director');
-                    //if ($directors) {
-                    //    $i = 1;
-                    //    while (has_sub_field('the_director')) {
-                    //        $director = get_sub_field('name');
-                    //        if ($i == 1) {
-                    //            echo '<p>Directed by ' . $director;
-                    //        } else {
-                    //            echo ' and ' . $director;
-                    //        }
-                    //        $i++;
-                    //    }
-                    //    echo '</p>';
-                    //}
-                ?>
-                <p><?php //var_dump(get_field('the_director')); ?></p>
-                <?php $auditionInformation = getAuditionInformation(); ?>
-                <p><?php var_dump(checkInformation('the_director')); ?></p>
-                <p><?php var_dump($auditionInformation); ?></p>
-                <p>Directed by 
-                    <?php
-                        $directorCount = count($auditionInformation['director']);
-                        $i=1;
-                        foreach($auditionInformation['director'] as $director) {
-                            if ($directorCount == 1) {
-                                echo $director;
+                    the_excerpt();
+                    $auditionInformation = getShowInformation('audition');
+                    $directorInfo = isset($auditionInformation['director']) ? $auditionInformation['director'] : FALSE;
+                    if ($directorInfo) {
+                        $directorCount = count($directorInfo);
+                        foreach($directorInfo as $director) {
+                            if ($directorCount === 1) {
+                                echo '<p>Directed by ' . $director . '</p>';
                             }
-                            if ($directorCount == 2) {
-                                if ($i == 1) {
-                                    echo $director;
-                                    $i++;
+                            if ($directorCount === 2) {
+                                if ($director === reset($directorInfo)) {
+                                    echo'<p> Directed by ' . $director;
                                 } else {
-                                    echo ' and ' . $director;
+                                    echo ' and ' . $director . '</p>';
                                 }
                             }
                             if ($directorCount > 2) {
-                                if ($i == 1) {
-                                    echo $director;
-                                    $i++;
-                                } elseif ($i >= 2) {
+                                if ($director === reset($directorInfo)) {
+                                    echo '<p>Directed by ' . $director;
+                                } elseif ($director === end($directorInfo)) {
+                                    echo ', and ' . $director . '</p>';
+                                } else {
                                     echo ', ' . $director;
-                                }
+                                } 
                             }
                         }
-                    ?>
-                </p>
+                    }
+                ?>
                 <?php
-                    $all_audition_information = TRUE; //Show audition information on this page
-                    if ($all_audition_information)  { ?>
+                    if (!empty(($auditionInformation['date'][0]))) { ?>
                         <h3>Audition Information</h3>
                         <p>
-                            <strong>Location:</strong> <?php echo $auditionInformation['location']; ?><br>
+                            <?php
+                                $auditionLocation = isset($auditionInformation['location']) ? $auditionInformation['location'] : FALSE;
+                                if (!$auditionLocation == FALSE) {
+                                    echo '<strong>Location:</strong> ' . $auditionLocation . '<br>';
+                                }
+                            ?>
                             <strong>Audition Dates:</strong><br>
                             <?php
-                            foreach ($audition_dates as $dates) {
-                                echo ' - ' . date("l F d, Y", strtotime($dates['audition_date'])) . ' at ' . $dates['audition_time'] . '<br>';
-                            } ?>
+                                foreach (array_combine($auditionInformation['date'], $auditionInformation['time']) as $date => $time) {
+                                    echo ' - ' . date("l F d, Y", strtotime($date));
+                                    if (!empty($time)) {
+                                        echo ' at ' . $time;
+                                    }
+                                    echo '<br>';
+                                }
+                            ?>
                         </p>
-                        <h3>Available Roles</h3>
-                        <p>
-                        <?php
-                            foreach ($characters as $character_info) {
-                                echo '<strong>' . $character_info['character_name'] . '</strong> - <em>' . $character_info['character_description'] . '</em><br>';
-                            }
-                        ?>
-                        </p>
-                    <?php } else { ?>
-                        <p><em>Audition information for <?php echo get_the_title($post->post_ID); ?> have not been announced.</em></p>
-                    <?php } ?>
+                    <?php
+                        if (!empty($auditionInformation['castCharacter'][0])) { ?>
+                            <h3>Available Roles</h3>
+                                <table>
+                                    <tbody>
+                                <?php
+                                    foreach (array_combine($auditionInformation['castCharacter'], $auditionInformation['castDescription']) as $character => $description) { ?>
+                                        <tr>
+                                            <td class="large-3">
+                                                <?php echo '<strong>' . $character . '</strong>'; ?>
+                                            </td>
+                                            <td class="large-9">
+                                            <?php
+                                                if (!empty($description)) { ?>
+                                                        <?php  echo '<em>' . $description . '</em>'; ?>
+                                            <?php } ?>
+                                            </td>
+                                        </tr>
+                                <?php } ?>
+                                    </tbody>
+                                </table>
+                    <?php
+                        } else { ?>
+                        <p><em>Casting information for <?php echo get_the_title($post->post_ID); ?> has not been announced. Information will be posted soon.</em></p>
+                    <?php 
+                        }
+                    } else { ?>
+                        <p><em>Audition information for <?php echo get_the_title($post->post_ID); ?> has not been announced. Information will be posted soon.</em></p>
+                <?php
+                    } ?>
+                <?php echo getShowTypeIcon('full'); ?>
             </div><?php //post ?>
             <?php wp_link_pages(); ?>
         <?php endwhile; else: ?>

@@ -141,7 +141,7 @@ function create_shows_taxonomies() {
 //Add link to Excerpt
 function excerpt_read_more_link($output) {
     global $post;
-    return $output . '<a href="'. get_permalink($post->ID) . '"> Read More...</a>';
+    return $output . '<p><a href="'. get_permalink($post->ID) . '"> Read More...</a></p>';
 }
 add_filter('the_excerpt', 'excerpt_read_more_link');
 
@@ -219,22 +219,74 @@ function displayShowPeople($peopleType) {
     }
 }
 
-function getAuditionInformation() {
+function getShowInformation($request) {
+    $request = $request;
     $n = array();
-    //$director = get_field('the_director');
-    if (checkInformation('the_director')) {
-        while(has_sub_field('the_director')) {
-            $n["director"][] = get_sub_field('name');
-        }
+    //Put director Information into array
+    if (checkInformation('show_type')) {
+        $n['showType'] = get_field('show_type');
     }
-    if (checkInformation('audition_locale')) {
-        $n["location"] = get_field('audition_locale');
-    }
-    if (checkInformation('audition_dates')) {
-        while(has_sub_field('audition_dates')) {
-            $n["date"][] = date("l F d, Y", strtotime(get_sub_field('audition_date')));
-            $n["time"][] =get_sub_field('audition_time');
+    if ($request == 'audition') {
+        if (checkInformation('the_director')) {
+            while(has_sub_field('the_director')) {
+                $n["director"][] = get_sub_field('name');
+            }
         }
+        //Put audition location into array
+        if (checkInformation('audition_locale')) {
+            $n["location"] = get_field('audition_locale');
+        }
+        //Put audition dates/times into array
+        if (checkInformation('audition_dates')) {
+            while(has_sub_field('audition_dates')) {
+                $n["date"][] = get_sub_field('audition_date');
+                $n["time"][] = get_sub_field('audition_time');
+            }
+        }
+        if(checkInformation('the_cast')) {
+            while(has_sub_field('the_cast')) {
+                $n['castCharacter'][] = get_sub_field('role');
+                $n['castDescription'][] = get_sub_field('description');
+            }
+        }
+    } elseif ($request == 'show') {
+        //Put performance dates/times into array
+        if(checkInformation('performance_info')) {
+            while(has_sub_field('performance_info')) {
+                $n['pdate'][] = get_sub_field('performance_date');
+                $n['ptime'][] = get_sub_field('performance_time');
+            }
+        }
+        //Put ticket link into array
+        if(checkInformation('ticket_link')) {
+            $n['link'] = get_field('ticket_link');
+        }
+        //Put Cast information into array
+        if(checkInformation('the_cast')) {
+            while (has_sub_field('the_cast')) {
+                $n['castName'][] = get_sub_field('name');
+                $n['castCharacter'][] = get_sub_field('role');
+                $n['castDescription'][] = get_sub_field('description');
+                $n['castHeadshot'][] = get_sub_field('headshot');
+            }
+        }
+        //Put crew information into array
+        if(checkInformation('the_crew')) {
+            while (has_sub_field('the_crew')) {
+                $n['crewName'][] = get_sub_field('name');
+                $n['crewRole'][] = get_sub_field('role');
+                $n['crewHeadShot'][] = get_sub_field('headshot');
+            }
+        }
+        if(checkInformation('the_director')) {
+            while(has_sub_field('the_director')) {
+                $n['directorName'][] = get_sub_field('name');
+                $n['directorRole'][] = get_sub_field('role');
+                $n['directorHeadshot'][] = get_sub_field('headshot');
+            }
+        }
+    } else {
+        $n = 'Your request returned no results';
     }
     return $n;
 }
