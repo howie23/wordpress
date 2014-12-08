@@ -10,120 +10,110 @@
         <div class="post">
             <h2><?php echo getShowTypeIcon('icon'); ?>&nbsp;<a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
             <hr />
-            <?php the_content();
-                $directorArray = array_map(null, $showInformation['directorName'], $showInformation['directorRole'], $showInformation['directorHeadshot']);
-                var_dump($directorArray);
-                $directorInfo = isset($showInformation['directorName']) ? TRUE : FALSE;
-                if ($directorInfo) { ?>
-                    <div class="row">
-                        <div class="large-4 columns">
-                            <?php
-                                foreach(array_combine($showInformation['directorName'], $showInformation['directorRole']) as $director => $role) {
-                                echo '<h3>' . $director . '</h3>';
-                                echo '<h4>' . $role . '</h4>';
-                            } ?>
-                        </div>
-                    </div>
+            <?php the_content(); ?>
+            <div class="row">
+                <div class="large-4 columns">
                     <?php
-                }
-            ?>
-            <?php
-
-                //Displaying Cast and Crew Information
-                //$director_information = TRUE;
-                //$directors = function_exists('get_field') ? get_field('the_director') : FALSE;
-                //if (($directors == FALSE) || (empty($directors[0]['name']))) {
-                //    $director_information = FALSE;
-                //}
-                //$cast_information = TRUE;
-                //$cast = function_exists('get_field') ? get_field('the_cast') : FALSE;
-                //Check to see if at least one cast name has been set. If not, don't display cast information
-                //if (($cast == FALSE) || (empty($cast[0]['name']))) {
-                //    $cast_information = FALSE;
-                //}
-                //$crew_information = TRUE;
-                //$crew = function_exists('get_field') ? get_field('the_crew') : FALSE;
-                //Check to see if at least one crew name has been set. If not, don't display crew information
-                //if (($crew == FALSE) || (empty($crew[0]['name']))) {
-                //    $crew_information = FALSE;
-                //}
-                //Get show dates
-                $performanceInfo = function_exists('get_field') ? get_field('performance_info') : FALSE;
-                if (!empty($performanceInfo[0]['performance_date']) && have_rows('performance_info')): ?>
-                <div class="row">
-                    <div class="large-4 columns">
-                        <?php
-                        if ($director_information) {
-                            if ($cast_information == FALSE) {
-                                $i = 1;
-                                while (has_sub_field('the_director')) {
-                                    $director = get_sub_field('name');
-                                    if ($i == 1) {
-                                        echo '<p>Directed by ' . $director;
-                                    } else {
-                                        echo ' and ' . $director;
-                                    }
-                                    $i++;
+                        if (function_exists(have_rows) && have_rows('the_director')) {
+                            while(have_rows('the_director')) : the_row();
+                                $role = get_sub_field('role');
+                                $name = get_sub_field('name');
+                                $pic = get_sub_field('headshot');
+                                if (!empty($pic)) {
+                                    echo '<a href="' . $pic['url'] . '"><img src="' . $pic['sizes']['medium'] . '" alt="' . $pic['alt'] . '"></a>';
                                 }
-                                echo '</p>';
-                            } else {
-                                echo displayShowPeople('the_director');
-                            }
+                                echo '<h4>';
+                                echo $role;
+                                echo '</h4>';
+                                echo '<h3>';
+                                echo $name;
+                                echo '</h3>';
+                                unset($role);
+                                unset($name);
+                                unset($pic);
+                            endwhile;
                         }
-                        //List cast of charcters
-                        if($cast_information) {
-                            echo '<h2>Cast</h2>';
-                            echo displayShowPeople('the_cast');
+                        if (function_exists(have_rows) && have_rows('the_cast')) {
+                            while(have_rows('the_cast')) : the_row();
+                                $role = get_sub_field('role');
+                                $name = get_sub_field('name');
+                                $pic = get_sub_field('headshot');
+                                if (!empty($pic)) {
+                                    echo '<a href="' . $pic['url'] . '"><img src="' . $pic['sizes']['medium'] . '" alt="' . $pic['alt'] . '"></a>';
+                                }
+                                echo '<h4>';
+                                the_sub_field('role');
+                                echo '</h4>';
+                                echo '<h3>';
+                                the_sub_field('name');
+                                echo '</h3>';
+                                unset($role);
+                                unset($name);
+                                unset($pic);
+                            endwhile;
                         }
-                        //List of crew
-                        if($crew_information && $cast_information) {
-                            echo '<h2>The Crew</h2>';
-                            echo displayShowPeople('the_crew');
+                        if (function_exists(have_rows) && have_rows('the_crew')) {
+                            while(have_rows('the_crew')) : the_row();
+                                $role = get_sub_field('role');
+                                $name = get_sub_field('name');
+                                $pic = get_sub_field('headshot');
+                                if (!empty($pic)) {
+                                    echo '<a href="' . $pic['url'] . '"><img src="' . $pic['sizes']['medium'] . '" alt="' . $pic['alt'] . '"></a>';
+                                }
+                                echo '<h4>';
+                                the_sub_field('role');
+                                echo '</h4>';
+                                echo '<h3>';
+                                the_sub_field('name');
+                                echo '</h3>';
+                                unset($role);
+                                unset($name);
+                                unset($pic);
+                            endwhile;
                         }
-                        $ticketLink = get_field('ticket_link'); ?>
-                    </div>
-                    <div class="small-12 large-8 columns">
-                        <table>
-                            <thead>
+                    ?>
+                </div>
+                <div class="large-8 columns">
+                    <?php $ticketLink = get_field('ticket_link'); ?>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Performance Dates
+                                </th>
+                                <th>
+                                    Performance times
+                                </th>
+                                <?php
+                                    if (!empty($ticketLink)) {
+                                ?>
+                                <th>
+                                    Buy Tickets
+                                </th>
+                                <?php } ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            while(have_rows('performance_info')) : the_row(); ?>
                                 <tr>
-                                    <th>
-                                        Performance Dates
-                                    </th>
-                                    <th>
-                                        Performance times
-                                    </th>
-                                    <?php
-                                        if (!empty($ticketLink)) {
-                                    ?>
-                                    <th>
-                                        Buy Tickets
-                                    </th>
+                                    <td>
+                                        <?php echo date("l F d, Y", strtotime(get_sub_field('performance_date'))); ?>
+                                    </td>
+                                    <td>
+                                        <span class="text-center"><?php the_sub_field('performance_time'); ?></span>
+                                    </td>
+                                    <?php if (!empty($ticketLink)) { ?>
+                                    <td>
+                                        <a href="<?php echo $ticketLink; ?>" class="button round purchaseTicket" target="_blank">Buy Tickets</a>
+                                    </td>
                                     <?php } ?>
                                 </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                                while(have_rows('performance_info')): the_row(); ?>
-                                    <tr>
-                                        <td>
-                                            <?php echo date("l F d, Y", strtotime(get_sub_field('performance_date'))); ?>
-                                        </td>
-                                        <td>
-                                            <span class="text-center"><?php the_sub_field('performance_time'); ?></span>
-                                        </td>
-                                        <?php if (!empty($ticketLink)) { ?>
-                                        <td>
-                                            <a href="<?php echo $ticketLink; ?>" class="button round purchaseTicket" target="_blank">Buy Tickets</a>
-                                        </td>
-                                        <?php } ?>
-                                    </tr>
-                            <?php endwhile; ?>
-                            </tbody>
-                        </table>
-                    </div>
+                        <?php endwhile; ?>
+                        </tbody>
+                    </table>
                 </div>
-                <?php endif;
-            ?>
+            </div>
             <?php echo getShowTypeIcon('full'); ?>
         </div><?php //post ?>
         <?php wp_link_pages(); ?>
