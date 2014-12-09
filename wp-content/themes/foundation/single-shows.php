@@ -4,6 +4,7 @@
     */
     get_header();
     $showInformation = getShowInformation('show');
+    $today = strtotime('today');
 ?>
     <div class="container">
     <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
@@ -74,7 +75,11 @@
                     ?>
                 </div>
                 <div class="large-8 columns">
-                    <?php $ticketLink = get_field('ticket_link'); ?>
+                    <?php 
+                        //$performanceArray = get_field('performance_info');
+                        //$lastShow = end($performanceArray);
+                        //if (strtotime($lastShow['performance_date']) > $today) {
+                        $ticketLink = get_field('ticket_link'); ?>
                     <table>
                         <thead>
                             <tr>
@@ -112,6 +117,7 @@
                         <?php endwhile; ?>
                         </tbody>
                     </table>
+                    <?php //} ?>
                 </div>
             </div>
             <?php echo getShowTypeIcon('full'); ?>

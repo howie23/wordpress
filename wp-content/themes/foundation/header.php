@@ -1,6 +1,7 @@
 <?php
 $uploadDirPath = wp_upload_dir();
 $getUploadDirPath = $uploadDirPath['url'];
+date_default_timezone_set('America/Los_Angeles');
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" <?php language_attributes(); ?>> <![endif]-->
