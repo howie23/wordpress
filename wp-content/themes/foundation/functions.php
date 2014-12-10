@@ -182,7 +182,8 @@ function pluginStatusCheck() {
 function checkInformation($object) {
     $results = '';
     if (pluginStatusCheck()) {
-        if(!empty(get_field($object))) {
+        $objectArray = get_field($object);
+        if(!empty($objectArray)) {
             $results = TRUE;
         } else {
             $results = FALSE;
