@@ -74,12 +74,12 @@
                                             <td class="large-3">
                                                 <?php echo '<strong>' . $character . '</strong>'; ?>
                                             </td>
-                                            <td class="large-9">
                                             <?php
                                                 if (!empty($description)) { ?>
-                                                        <?php  echo '<em>' . $description . '</em>'; ?>
+                                                <td class="large-9">
+                                                    <?php  echo '<em>' . $description . '</em>'; ?>
+                                                </td>
                                             <?php } ?>
-                                            </td>
                                         </tr>
                                 <?php } ?>
                                     </tbody>
