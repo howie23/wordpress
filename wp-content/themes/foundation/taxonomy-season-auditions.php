@@ -43,7 +43,7 @@
                     }
                 ?>
                 <?php
-                    if (!empty(($auditionInformation['date'][0]))) { ?>
+                    if (!empty($auditionInformation['date'][0])) { ?>
                         <h3>Audition Information</h3>
                         <p>
                             <?php
@@ -64,30 +64,9 @@
                             ?>
                         </p>
                     <?php
-                        if (!empty($auditionInformation['castCharacter'][0])) { ?>
-                            <h3>Available Roles</h3>
-                                <table>
-                                    <tbody>
-                                <?php
-                                    foreach (array_combine($auditionInformation['castCharacter'], $auditionInformation['castDescription']) as $character => $description) { ?>
-                                        <tr>
-                                            <td class="large-3">
-                                                <?php echo '<strong>' . $character . '</strong>'; ?>
-                                            </td>
-                                            <?php
-                                                if (!empty($description)) { ?>
-                                                <td class="large-9">
-                                                    <?php  echo '<em>' . $description . '</em>'; ?>
-                                                </td>
-                                            <?php } ?>
-                                        </tr>
-                                <?php } ?>
-                                    </tbody>
-                                </table>
-                    <?php
-                        } else { ?>
-                        <p><em>Casting information for <?php echo get_the_title($post->post_ID); ?> has not been announced. Information will be posted soon.</em></p>
-                    <?php 
+                        $auditionNote = get_field('audition_info');
+                        if (!empty($auditionNote)) {
+                            echo $auditionNote;
                         }
                     } else { ?>
                         <p><em>Audition information for <?php echo get_the_title($post->post_ID); ?> has not been announced. Information will be posted soon.</em></p>
