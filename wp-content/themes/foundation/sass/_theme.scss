@@ -149,3 +149,13 @@ pre {
     margin: 1em auto;
     padding: 10px;
 }
+.input-group input[type="checkbox"] + label,
+.input-group input[type="radio"] + label {
+    display: inline-block;
+    margin-left: 16px;
+    margin-left: 1rem;
+    vertical-align: middle;
+}
+.input-group li {
+    list-style-type: none;
+}
